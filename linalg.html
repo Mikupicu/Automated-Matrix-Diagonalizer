@@ -18,25 +18,30 @@
         <h3>INSTRUCTIONS</h3>
             <h4>𐔌՞ ܸ.ˬ.ܸ՞𐦯</h4>
         <label>Matrix size n (≤5): </label>
-        <input type="number" id="n" min="1" max="5" value="2">
+         <select name="size" id="n">
+            <option value="2">2*2</option>
+            <option value="3">3*3</option>
+            <option value="4">4*4</option>
+            <option value="5">5*5</option>
+        </select>
         <button onclick="makeMatrix()">Create Matrix</button>
         <div id="matrixArea"></div>
-        <button onclick="confirmInput()">Confirm Matrix</button>
-        <button onclick="analyze()">Check Diagonalizable</button>
+        <button onclick="confirmInput()">Check if the Matrix is Diagonalizable</button>
         <pre id="output"></pre>
         
         
 
         <script>
         let A = [];
-
+        let create=false;
         function makeMatrix(){
+        create=true;
         let n = +document.getElementById('n').value;
         let html = '<table>';
         for(let i=0;i<n;i++){
             html += '<tr>';
             for(let j=0;j<n;j++){
-            html += `<td><input id="a${i}${j}" value="0"></td>`;
+            html += `<td><input id="a${i}${j}" value=" "></td>`;
             }
             html+='</tr>';
         }
@@ -45,14 +50,30 @@
         }
 
         function confirmInput(){
-        let n = +document.getElementById('n').value;
+        if(create==false){
+            alert(`Please create a matrix first`);
+            return;
+        }
+        let n = document.getElementById('n').value;
         A = [];
         for(let i=0;i<n;i++){
             let row=[];
-            for(let j=0;j<n;j++) row.push(+document.getElementById(`a${i}${j}`).value);
+            for(let j=0;j<n;j++)
+            { 
+                let number=document.getElementById(`a${i}${j}`).value;
+                if(+document.getElementById(`a${i}${j}`).value ==""){
+                alert(`Please input a valid number in cell ${i}${j}`);
+                return;
+                }else if(number.includes("/")){
+                    let val=number.split("/");
+                    document.getElementById(`a${i}${j}`).value=parseFloat(val[0])/parseFloat(val[1]);
+                    
+                }
+                row.push(+document.getElementById(`a${i}${j}`).value);
+            }
             A.push(row);
         }
-        alert('Matrix confirmed!');
+        analyze();
         }
 
         function clone(M){ return M.map(r=>r.slice()); }
