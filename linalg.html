@@ -27,6 +27,7 @@
         <button onclick="makeMatrix()">Create Matrix</button>
         <div id="matrixArea"></div>
         <button onclick="confirmInput()">Check if the Matrix is Diagonalizable</button>
+        <button onclick="clearMatrix()">Clear Matrix</button>
         <pre id="output"></pre>
         
         
@@ -36,6 +37,24 @@
         let create=false;
         function makeMatrix(){
         create=true;
+        let n = +document.getElementById('n').value;
+        let html = '<table>';
+        for(let i=0;i<n;i++){
+            html += '<tr>';
+            for(let j=0;j<n;j++){
+            html += `<td><input id="a${i}${j}" value=" "></td>`;
+            }
+            html+='</tr>';
+        }
+        html+='</table>';
+        document.getElementById('matrixArea').innerHTML = html;
+        }
+
+        function clearMatrix(){
+        if(create==false){
+            alert(`Please create a matrix first`);
+            return;
+        }
         let n = +document.getElementById('n').value;
         let html = '<table>';
         for(let i=0;i<n;i++){
