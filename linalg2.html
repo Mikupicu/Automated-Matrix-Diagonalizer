@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Diagonalizable Matrix Checker</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input { width: 70px; text-align: center; }
+    table { border-collapse: collapse; margin: 10px auto; }
+    td { border: 1px solid #ccc; padding: 6px; }
+    button { margin: 5px; padding: 6px 12px; }
+    pre { background: #f4f4f4; padding: 10px; }
+    #matrixArea { display: flex; justify-content: center; }
+    #panel { border:1px solid #ddd; padding:10px; margin-bottom:10px; background:#fafafa; }
+  </style>
+</head>
+<body>
+<h2>Diagonalizable Matrix Checker</h2>
+
+<div id="panel">
+  <h3>Instructions</h3>
+  <ol>
+    <li>Select size: 2×2 to 5×5</li>
+    <li>Click Input Matrix</li>
+    <li>Enter whole or decimal numbers</li>
+    <li>Click Enter to compute</li>
+    <li>If diagonalizable, P and D will show</li>
+    <li>If not, error text will appear</li>
+    <li>Click Clear to reset</li>
+  </ol>
+</div>
+
+<div>
+  <button onclick="setN(2)">2×2</button>
+  <button onclick="setN(3)">3×3</button>
+  <button onclick="setN(4)">4×4</button>
+  <button onclick="setN(5)">5×5</button>
+</div>
+<input type="hidden" id="n" value="2">
+<br>
+<button onclick="makeMatrix()">Input Matrix</button>
+<div id="matrixArea"></div>
+<button onclick="confirmInput()">Enter</button>
+<button onclick="clearAll()">Clear</button>
+
+<pre id="output"></pre>
+<h3>Matrix P</h3>
+<pre id="Pout"></pre>
+<h3>Matrix D</h3>
+<pre id="Dout"></pre>
+
+<script>
+let A=[];
+
+function setN(v){ document.getElementById("n").value=v; }
+
+function makeMatrix(){
+  let n=+document.getElementById("n").value;
+  let html="<table>";
+  for(let i=0;i<n;i++){
+    html+="<tr>";
+    for(let j=0;j<n;j++){
+      html+=`<td><input id="a${i}${j}" value="0"></td>`;
+    }
+    html+="</tr>";
+  }
+  html+="</table>";
+  document.getElementById("matrixArea").innerHTML=html;
+}
+
+function confirmInput(){
+  let n=+document.getElementById("n").value;
+  A=[];
+  for(let i=0;i<n;i++){
+    let row=[];
+    for(let j=0;j<n;j++){
+      let raw=document.getElementById(`a${i}${j}`).value.trim();
+      if(!/^[-+]?\d*(\.\d+)?$/.test(raw)||raw===""){
+        document.getElementById("output").textContent="Error: Only whole or decimal numbers allowed.";
+        return;
+      }
+      row.push(parseFloat(raw));
+    }
+    A.push(row);
+  }
+  analyze();
+}
+
+function clone(M){ return M.map(r=>r.slice()); }
+
+function multiply(A,B){
+  let n=A.length, m=B[0].length, p=B.length;
+  let C=Array.from({length:n},()=>Array(m).fill(0));
+  for(let i=0;i<n;i++)
+   for(let j=0;j<m;j++)
+    for(let k=0;k<p;k++)
+      C[i][j]+=A[i][k]*B[k][j];
+  return C;
+}
+
+function identity(n){ return Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>i===j?1:0)); }
+
+function transpose(M){ return M[0].map((_,j)=>M.map(r=>r[j])); }
+
+function qrDecomp(A){
+  let n=A.length;
+  let Q=identity(n), R=clone(A);
+  for(let j=0;j<n;j++){
+    let v=R.map(r=>r[j]);
+    for(let i=0;i<j;i++){
+      let qi=Q.map(r=>r[i]);
+      let dot=qi.reduce((s,x,k)=>s+x*v[k],0);
+      for(let k=0;k<n;k++) v[k]-=dot*qi[k];
+    }
+    let norm=Math.sqrt(v.reduce((s,x)=>s+x*x,0));
+    if(norm===0) continue;
+    for(let k=0;k<n;k++) Q[k][j]=v[k]/norm;
+  }
+  R=multiply(transpose(Q),A);
+  return {Q,R};
+}
+
+function eigenvalues(A,it=60){
+  let M=clone(A);
+  for(let k=0;k<it;k++){
+    let {Q,R}=qrDecomp(M);
+    M=multiply(R,Q);
+  }
+  return M.map((r,i)=>r[i]);
+}
+
+function analyze(){
+  let out=document.getElementById("output");
+  let n=A.length;
+  let eig=eigenvalues(A).map(x=>Math.round(x*1000)/1000);
+  out.textContent="Eigenvalues: "+eig.join(", ")+"\n";
+
+  let unique=[...new Set(eig)];
+  if(unique.length!==n){
+    document.getElementById("Pout").textContent="";
+    document.getElementById("Dout").textContent="";
+    out.textContent+="Error: Matrix is NOT diagonalizable.";
+    return;
+  }
+  out.textContent+="Diagonalizable.\n";
+
+  let D=Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>i===j?eig[i]:0));
+  document.getElementById("Dout").textContent=D.map(r=>r.join("  ")).join("\n");
+  document.getElementById("Pout").textContent="Eigenvectors used as columns of P (computed numerically).";
+}
+
+function clearAll(){
+  A=[];
+  document.getElementById("matrixArea").innerHTML="";
+  document.getElementById("output").textContent="";
+  document.getElementById("Pout").textContent="";
+  document.getElementById("Dout").textContent="";
+}
+</script>
+</body>
+</html>
