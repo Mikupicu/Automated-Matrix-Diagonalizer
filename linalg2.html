@@ -3,33 +3,19 @@
 <head>
   <title>Diagonalizable Matrix Checker</title>
   <style>
-    body { font-family: Arial; padding: 20px; }
-    input { width: 70px; text-align: center; }
-    table { border-collapse: collapse; margin: 10px auto; }
-    td { border: 1px solid #ccc; padding: 6px; }
-    button { margin: 5px; padding: 6px 12px; }
-    pre { background: #f4f4f4; padding: 10px; }
-    #matrixArea { display: flex; justify-content: center; }
-    #panel { border:1px solid #ddd; padding:10px; margin-bottom:10px; background:#fafafa; }
-  </style>
+            body { font-family: Arial; padding: 20px; }
+            input { width: 60px; }
+            table { border-collapse: collapse; margin-bottom: 10px; }
+            td { border: 1px solid #ccc; padding: 4px; }
+            button { margin: 5px; padding: 6px 12px; }
+            pre { background: #f4f4f4; padding: 10px; }
+            #matrixArea { display: flex; justify-content: center; }
+    </style>
 </head>
 <body>
 <h2>Diagonalizable Matrix Checker</h2>
-
-<div id="panel">
-  <h3>Instructions</h3>
-  <ol>
-    <li>Select size: 2×2 to 5×5</li>
-    <li>Click Input Matrix</li>
-    <li>Enter whole or decimal numbers</li>
-    <li>Click Enter to compute</li>
-    <li>If diagonalizable, P and D will show</li>
-    <li>If not, error text will appear</li>
-    <li>Click Clear to reset</li>
-  </ol>
-</div>
-
-<div>
+<label>Matrix size (2 to 5): </label>
+<div id="sizeBtns">
   <button onclick="setN(2)">2×2</button>
   <button onclick="setN(3)">3×3</button>
   <button onclick="setN(4)">4×4</button>
@@ -260,4 +246,3 @@ function randomFill(){
 </script>
 </body>
 </html>
-
