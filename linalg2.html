@@ -39,6 +39,7 @@ let A = [];
 
 function setN(val){ document.getElementById('n').value = val; }
 
+  //error handling to not allow a default matrix before calculating
 function makeMatrix(){
   let n = parseInt(document.getElementById('n').value,10);
   const out = document.getElementById('output');
@@ -246,3 +247,4 @@ function randomFill(){
 </script>
 </body>
 </html>
+
