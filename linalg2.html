@@ -179,7 +179,7 @@ function analyze(){
   out.textContent='Eigenvalues: '+eig.join(', ')+'\n';
 
   let unique = [...new Set(eig)];
-  let diagonalizable = (eig.length===n);
+  let diagonalizable = (unique.length===n);
   if(!diagonalizable){
     document.getElementById('Pout').textContent='';
     document.getElementById('Dout').textContent='';
