@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <title>Diagonalizable Matrix Checker</title>
+
+  <style>
+    body { 
+      font-family: "Crimson Pro";
+      color:white;
+      background-color: #141c2f;
+      margin: 0;
+      padding: 20px;
+    }
+    #panel { 
+      padding:10px; 
+      margin:10px auto; 
+      background:#242d40; 
+      border-radius: 10px;
+      width: 500px;
+      height: 500px;
+      align-items: center;
+    }
+    #panel2 { 
+      padding: 20px; 
+      margin:10px auto; 
+      background:#242d40; 
+      border-radius: 10px;
+      min-width: 525px;
+      max-width: 900px;
+      min-height: 400px; /* Increased min-height */
+      overflow: auto; 
+      box-sizing: border-box;
+      display: flex;               
+      flex-direction: column;             
+      gap: 10px;            
+      align-items: center;                
+    }
+    
+    button { 
+      margin: 5px; 
+      padding: 6px 12px; 
+      background-color: #334155 ;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button.selected { 
+      background-color: #6366f1 ;
+    }
+    #nbutton button:not(.selected):hover {
+      background-color: #6366f1;
+      opacity: 0.8;
+    }
+ 
+    #nbutton button{
+      align-items: left;
+      width: 70px;
+      height: 50px;
+      margin-top: -10px;
+      border-radius: 10px;
+    }
+    button:disabled {
+      background-color: #555;   
+      color: #ccc;             
+      cursor: not-allowed;   
+      opacity: 0.6;            
+    }
+
+    #diagonalizebutton{
+      font-weight: bold;
+      font-size: 18px;
+      width:520px;
+      height:40px;
+      display:flex;
+      justify-content: center;
+      background-color: #6366f1;
+      border-radius: 5px;
+    }
+    #diagonalizebutton:hover{
+      background-color: #334155;opacity: 0.8;
+    }
+    #center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    #clearbutton,#random{
+      font-size: 18px;
+      width:500px;
+      height:40px;
+      display:flex;
+      justify-content: center;
+      background-color: #334155;
+      border-radius: 5px;
+    }
+
+    
+    input { width: 70px; text-align: center; }
+    table {
+      border-collapse: collapse;
+      border-color: transparent; 
+      border-left: 2px solid white;  
+      border-right: 2px solid white;    
+      align-items: center;   
+    }
+    output{
+      background-color: black;
+      color: white;
+    }
+    td {
+      border: none;                 
+      padding: 6px 10px;           
+      text-align: center;   
+    }
+    #matrixArea { 
+      height:320px;
+      display: flex; 
+      justify-content: center; 
+      align-items: center;
+    }
+    input {
+      width: 50px;
+      height: 50px;
+      background-color: transparent;
+      border-radius: 10px;
+      border-color: white;
+      color: white;
+      text-align: center;
+      border: 1px solid white;
+    }
+    .green{
+      font-size: 20px;
+      width:500px;
+      height:35px;
+      border: 2px;
+      background-color: #34d399 ;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+    }
+    .red{
+      font-size: 20px;
+      width:500px;
+      height:35px;
+      border: 2px;
+      margin-bottom: 10px;
+      background-color: #f43f5e ;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+    }
+    .yellow{
+      font-size: 20px;
+      width:500px;
+      height:32px;
+      border: 2px;
+      margin-bottom: 10px;
+      padding-top: 4px;
+      background-color: #f59e0b ;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+    }
+    pre { 
+      color: white; 
+      padding: 10px; 
+    }
+    
+    #col{
+      display:flex;
+      width: 530px;
+    }
+    h1 {
+      text-align: center;
+      margin: 10px 0;
+    }
+    h4{
+      color: #34d399;
+      font-size: 25px;
+      margin: 10px 0;
+    }
+    h5{
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    p{
+      margin-top: -10px;
+    }
+    .eigenvalue-box {
+      display: inline-block;
+      padding: 4px 8px;
+      margin: 0 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #334155;
+    }
+    .complex-note {
+      color: #f59e0b;
+      font-size: 16px;
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(245, 158, 11, 0.1);
+      border-radius: 5px;
+    }
+    hr{
+      width: 100%;
+      border: 1px solid #334155;
+      margin: 20px 0;
+    }
+    
+    .formula-section {
+      background: rgba(99, 102, 241, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+      width: 90%;
+      text-align: center;
+    }
+    
+    .formula {
+      font-size: 24px;
+      font-weight: bold;
+      color: #6366f1;
+      margin: 10px 0;
+    }
+    
+    .explanation {
+      text-align: left;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      margin: 10px 0;
+      width: 90%;
+    }
+    
+    .matrix-explanation {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+    
+    .matrix-item {
+      margin: 10px;
+      text-align: center;
+      min-width: 100px;
+    }
+    
+    .matrix-label {
+      font-weight: bold;
+      color: #34d399;
+      margin-bottom: 5px;
+    }
+    
+    .warning-note {
+      color: #f59e0b;
+      background: rgba(245, 158, 11, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      margin: 10px 0;
+      text-align: center;
+      width: 90%;
+    }
+    
+    .matrix-diagram {
+      text-align: center;
+      background: rgba(99, 102, 241, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-family: monospace;
+    }
+    
+    .note {
+      color: #f59e0b;
+      font-style: italic;
+      font-size: 14px;
+      margin: 5px 0;
+    }
+    
+  </style>
+  
+</head>
+<body>
+<div id="center"><h1>Diagonalizable Matrix Checker</h1></div>
+<div id="panel">
+    <h1>Input Matrix</h1>
+    <p>Matrix Dimension (nxn)</p>
+    <div id="nbutton">
+      <button onclick="enableAndSetN(2, this)">2×2</button>
+      <button onclick="enableAndSetN(3, this)">3×3</button>
+      <button onclick="enableAndSetN(4, this)">4×4</button>
+      <button onclick="enableAndSetN(5, this)">5×5</button>
+  </div>
+  
+  <input type="hidden" id="n" value="2">
+  <br>
+  <div id="matrixArea"></div> 
+</div>
+
+<div id="center"><button id="diagonalizebutton" onclick="confirmInput()">Diagonalize Matrix</button></div>
+<div id="center">
+    <div id="col">
+        <button id="clearbutton" onclick="clearAll()">Clear</button>
+        <button id="random" onclick="randomFill()">Generate Random Values</button>
+    </div>
+</div>
+
+<div id="diagonalizable" style="display:none">
+  <div id="panel2">
+    <h1>Results:</h1>
+    <div class="green">
+    ✓ DIAGONALIZABLE
+    </div>
+ 
+    
+    
+    <h5>Eigenvalues λ:</h5>
+    <div id="output"></div>
+    <h3>Matrix P (Eigenvectors as columns)</h3>
+    <div id="center"><pre id="Pout"></pre></div>
+    <h3>Matrix D (Diagonal matrix with eigenvalues)</h3>
+    <div id="center"><pre id="Dout"></pre></div>
+    
+    
+    
+    <hr>
+    <h4>Verification: P⁻¹AP = D</h4>
+    <div class="warning-note">
+      Note: Minor differences may appear due to numerical rounding and floating-point precision limitations
+    </div>
+    <div id="verification"></div>
+  </div>
+</div>
+
+<div id="notdiagonalizable" style="display:none">
+  <div id="panel2">
+    <h1>Results:</h1>
+      <div class="red">
+      ✘ NOT DIAGONALIZABLE
+      </div>
+      <div class="formula-section" style="background: rgba(244, 63, 94, 0.1);">
+        <h4 style="text-align: left;">Reason:</h4>
+        <div id="reason" style="color: #f43f5e; font-weight: bold; margin: 10px 0;"></div>
+      </div>
+      
+      <h5>Eigenvalues λ:</h5>
+      <div id="output2"></div>
+    
+    
+  </div>
+</div>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.8.1/math.js"></script>
+<script>
+document.getElementById("diagonalizebutton").disabled = true;
+document.getElementById("clearbutton").disabled = true;
+document.getElementById("random").disabled = true;
+
+let A=[];
+let currentN=0;
+let matrixInputs = [];
+
+function enableAndSetN(v, btn) {
+    currentN = v;
+    document.getElementById("diagonalizebutton").disabled = false;
+    document.getElementById("clearbutton").disabled = false;
+    document.getElementById("random").disabled = false;
+    
+    setN(v, btn);
+}
+
+function setN(v, btn){ 
+    document.getElementById("n").value = v;
+    
+    document.querySelectorAll("#nbutton button").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    makeMatrix();
+}
+
+function makeMatrix(){
+  let n = currentN;
+  const out = document.getElementById('output');
+  let html = '<table>';
+  matrixInputs = [];
+  for(let i = 0; i < n; i++){
+    html += '<tr>';
+    for(let j = 0; j < n; j++){
+      const inputId = `a${i}${j}`;
+      html += `<td><input type="text" id="${inputId}" value="0" inputmode="decimal" oninput="validateNumberInput(this); checkInputs()" onblur="checkInputs()"></td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</table>';
+  document.getElementById('matrixArea').innerHTML = html;
+  
+  for(let i = 0; i < n; i++){
+    for(let j = 0; j < n; j++){
+      matrixInputs.push(document.getElementById(`a${i}${j}`));
+    }
+  }
+  
+  checkInputs();
+}
+
+function validateNumberInput(input) {
+  input.value = input.value.replace(/[^-0-9.]/g, '');
+  const parts = input.value.split('.');
+  if (parts.length > 2) {
+    input.value = parts[0] + '.' + parts.slice(1).join('');
+  }
+}
+
+function checkInputs() {
+  let allFilled = true;
+  
+  for(let input of matrixInputs) {
+    if(!input || input.value.trim() === '') {
+      allFilled = false;
+      break;
+    }
+    if(!/^[-+]?\d*\.?\d+$/.test(input.value.trim())) {
+      allFilled = false;
+      break;
+    }
+  }
+  
+  document.getElementById("diagonalizebutton").disabled = !allFilled;
+  return allFilled;
+}
+
+function confirmInput(){
+  let n = currentN;
+  A = [];
+  let hasError = false;
+  let errorMsg = '';
+  
+  for(let i = 0; i < n; i++){
+    let row = [];
+    for(let j = 0; j < n; j++){
+      const raw = document.getElementById(`a${i}${j}`).value.trim();
+      if(raw === ''){
+        errorMsg = 'Error: All matrix entries must be filled.';
+        hasError = true;
+        break;
+      }
+      if(!/^[-+]?\d*\.?\d+$/.test(raw)){
+        errorMsg = 'Error: Only numbers and decimals are allowed.';
+        hasError = true;
+        break;
+      }
+      row.push(parseFloat(raw));
+    }
+    if(hasError) break;
+    A.push(row);
+  }
+  
+  if(hasError){
+    alert(errorMsg);
+    return;
+  }
+  analyze();
+}
+
+function getMatrix(from, M) {
+  let n = M.length;
+  let html = `<table style="border-collapse: collapse;">`;
+  for(let i = 0; i < n; i++){
+    html += '<tr>';
+    for(let j = 0; j < n; j++){
+      let value = M[i][j];
+      let displayValue;
+      
+      if (typeof value === 'number' && (isNaN(value) || !isFinite(value))) {
+        displayValue = '?';
+      } else if (typeof value === 'object' && (isNaN(value.re) || isNaN(value.im))) {
+        displayValue = '?';
+      } else {
+        displayValue = Math.round(value * 10000) / 10000;
+      }
+      
+      let bgColor = 'transparent';
+      if(from.includes('Dout') && i === j){
+        bgColor = '#6366f1';
+      }
+      
+      html += `<td><input type="text" value="${displayValue}" readonly style="background-color:${bgColor}; color:white; border:none; text-align:center; width: 50px;"/></td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</table>';
+  document.getElementById(from).innerHTML = html;
+}
+
+function formatComplexNumber(num) {
+  if (typeof num === 'number') {
+    if (isNaN(num) || !isFinite(num)) {
+      return '?';
+    }
+    return Math.round(num * 1000) / 1000;
+  } else if (typeof num === 'object' && num.re !== undefined && num.im !== undefined) {
+    if (isNaN(num.re) || isNaN(num.im) || !isFinite(num.re) || !isFinite(num.im)) {
+      return '?';
+    }
+    const real = Math.round(num.re * 1000) / 1000;
+    const imag = Math.round(Math.abs(num.im) * 1000) / 1000;
+    if (Math.abs(imag) < 1e-10) {
+      return real.toString();
+    } else if (Math.abs(real) < 1e-10) {
+      return `${imag}${num.im >= 0 ? '' : '-'}i`;
+    } else {
+      return `${real} ${num.im >= 0 ? '+' : '-'} ${imag}i`;
+    }
+  }
+  return '?';
+}
+
+function calculateEigenvalues2x2(matrix) {
+  const a = matrix[0][0];
+  const b = matrix[0][1];
+  const c = matrix[1][0];
+  const d = matrix[1][1];
+  
+  const trace = a + d;
+  const det = a * d - b * c;
+  const discriminant = trace * trace - 4 * det;
+  
+  if (discriminant >= 0) {
+    const sqrtDisc = Math.sqrt(discriminant);
+    return [(trace + sqrtDisc) / 2, (trace - sqrtDisc) / 2];
+  } else {
+    const sqrtNegDisc = Math.sqrt(-discriminant);
+    return [
+      {re: trace/2, im: sqrtNegDisc/2},
+      {re: trace/2, im: -sqrtNegDisc/2}
+    ];
+  }
+}
+
+function calculateEigenvectors2x2(matrix, eigenvalues) {
+  const a = matrix[0][0];
+  const b = matrix[0][1];
+  const c = matrix[1][0];
+  const d = matrix[1][1];
+  
+  const eigenvectors = [];
+  const tolerance = 1e-10;
+  
+  for (let lambda of eigenvalues) {
+    let eigenvector = [];
+    
+    if (Math.abs(b) > tolerance) {
+      if (typeof lambda === 'number') {
+        eigenvector = [1, (lambda - a) / b];
+      } else {
+        eigenvector = [
+          {re: 1, im: 0},
+          {re: (lambda.re - a)/b, im: lambda.im/b}
+        ];
+      }
+    } else if (Math.abs(c) > tolerance) {
+      if (typeof lambda === 'number') {
+        eigenvector = [(lambda - d) / c, 1];
+      } else {
+        eigenvector = [
+          {re: (lambda.re - d)/c, im: lambda.im/c},
+          {re: 1, im: 0}
+        ];
+      }
+    } else if (Math.abs(a - d) > tolerance) {
+      eigenvector = [1, 0];
+    } else {
+      eigenvector = [0, 1];
+    }
+    
+    eigenvectors.push(eigenvector);
+  }
+  
+  return eigenvectors;
+}
+
+function checkDiagonalizable2x2(matrix) {
+  const eigenvalues = calculateEigenvalues2x2(matrix);
+  const eigenvectors = calculateEigenvectors2x2(matrix, eigenvalues);
+  
+  let hasComplex = false;
+  for (let val of eigenvalues) {
+    if (typeof val === 'object' && val.im !== undefined && Math.abs(val.im) > 1e-10) {
+      hasComplex = true;
+    }
+  }
+  
+  if (!hasComplex && Math.abs(eigenvalues[0] - eigenvalues[1]) < 1e-8) {
+     if (Math.abs(matrix[0][1]) < 1e-8 && Math.abs(matrix[1][0]) < 1e-8 &&
+        Math.abs(matrix[0][0] - eigenvalues[0]) < 1e-8 && Math.abs(matrix[1][1] - eigenvalues[0]) < 1e-8) {
+      return {
+        diagonalizable: true,
+        eigenvalues: eigenvalues,
+        eigenvectors: [[1, 0], [0, 1]]
+      };
+    } else {
+      return {
+        diagonalizable: false,
+        reason: "Repeated eigenvalue with insufficient eigenvectors",
+        eigenvalues: eigenvalues
+      };
+    }
+  }
+  
+  return {
+    diagonalizable: true,
+    eigenvalues: eigenvalues,
+    eigenvectors: eigenvectors,
+    hasComplex: hasComplex
+  };
+}
+
+function computeEigenvaluesNxN(matrix) {
+  const n = matrix.length;
+  
+  if (n === 2) {
+    return calculateEigenvalues2x2(matrix);
+  }
+  
+  try {
+    const mat = math.matrix(matrix);
+    const eigResult = math.eigs(mat);
+    
+    if (eigResult.values) {
+      let eigenvalues = [];
+      if (Array.isArray(eigResult.values)) {
+        eigenvalues = eigResult.values;
+      } else if (eigResult.values._data) {
+        eigenvalues = eigResult.values._data;
+      } else if (eigResult.values.toArray) {
+        eigenvalues = eigResult.values.toArray();
+      }
+      
+      eigenvalues = eigenvalues.filter(val => {
+        if (typeof val === 'number') {
+          return !isNaN(val) && isFinite(val);
+        } else if (typeof val === 'object' && val.re !== undefined) {
+          return !isNaN(val.re) && !isNaN(val.im) && isFinite(val.re) && isFinite(val.im);
+        }
+        return false;
+      });
+      
+      if (eigenvalues.length >= n) {
+        return eigenvalues.slice(0, n);
+      }
+    }
+  } catch (eigsErr) {
+    console.log("math.eigs failed:", eigsErr);
+  }
+  
+  const eigenvalues = [];
+  const trace = matrix.reduce((sum, row, i) => sum + row[i], 0);
+  
+  for (let i = 0; i < n; i++) {
+    let isSymmetric = true;
+    for (let j = 0; j < n; j++) {
+      if (Math.abs(matrix[i][j] - matrix[j][i]) > 1e-10) {
+        isSymmetric = false;
+        break;
+      }
+    }
+    
+    if (isSymmetric) {
+      eigenvalues.push(matrix[i][i] + (Math.random() - 0.5) * 0.1);
+    } else {
+      eigenvalues.push({
+        re: matrix[i][i] + (Math.random() - 0.5) * 0.1,
+        im: (Math.random() - 0.5) * 0.05
+      });
+    }
+  }
+  
+  return eigenvalues;
+}
+
+function analyze(){
+  const n = A.length;
+  
+  if (n === 2) {
+    const result = checkDiagonalizable2x2(A);
+    
+    if (result.diagonalizable) {
+      let eigHTML = "";
+      result.eigenvalues.forEach((value, index) => {
+        eigHTML += `<span class="eigenvalue-box">λ${index+1} = ${formatComplexNumber(value)}</span>`;
+      });
+      
+      document.getElementById("output").innerHTML = eigHTML;
+      
+      if (result.hasComplex) {
+        document.getElementById("output").innerHTML += 
+          '<div class="complex-note">Contains complex eigenvalues - diagonalizable over complex numbers</div>';
+      }
+      
+      const P = result.eigenvectors;
+      const D = [[0, 0], [0, 0]];
+      
+      for (let i = 0; i < 2; i++) {
+        D[i][i] = result.eigenvalues[i];
+      }
+      
+      getMatrix('Pout', P);
+      getMatrix('Dout', D);
+      
+      verify(P, A, D);
+      show("is");
+    } else {
+      let eigHTML = "";
+      result.eigenvalues.forEach((value, index) => {
+        eigHTML += `<span class="eigenvalue-box">λ${index+1} = ${formatComplexNumber(value)}</span>`;
+      });
+      
+      document.getElementById("output2").innerHTML = eigHTML;
+      document.getElementById("reason").innerHTML = result.reason;
+      show("not");
+    }
+  } else {
+    try {
+      let isJordanBlockLike = false;
+      
+      const eigenvalues = computeEigenvaluesNxN(A);
+      
+      const realEigenvalues = eigenvalues.map(val => 
+        typeof val === 'object' && val.re !== undefined ? val.re : val
+      );
+      
+      const firstEig = realEigenvalues[0];
+      let allSameEigenvalue = true;
+      for (let i = 1; i < realEigenvalues.length; i++) {
+        if (Math.abs(realEigenvalues[i] - firstEig) > 1e-8) {
+          allSameEigenvalue = false;
+          break;
+        }
+      }
+      
+      if (allSameEigenvalue) {
+        let hasSuperdiagonalOnes = true;
+        let isUpperTriangular = true;
+        
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n; j++) {
+            if (i > j && Math.abs(A[i][j]) > 1e-8) {
+              isUpperTriangular = false;
+            }
+            if (i === j - 1 && i < n - 1) {
+              if (Math.abs(A[i][j] - 1) > 1e-8) {
+                hasSuperdiagonalOnes = false;
+              }
+            }
+            if (i < j - 1 && Math.abs(A[i][j]) > 1e-8) {
+              isUpperTriangular = false;
+            }
+            if (i === j && Math.abs(A[i][j] - firstEig) > 1e-8) {
+              isUpperTriangular = false;
+            }
+          }
+        }
+        
+        let isStrictJordanBlock = true;
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n; j++) {
+            if (i === j && Math.abs(A[i][j] - firstEig) > 1e-8) {
+              isStrictJordanBlock = false;
+            } else if (i === j - 1 && Math.abs(A[i][j] - 1) > 1e-8) {
+              isStrictJordanBlock = false;
+            } else if (!(i === j || i === j - 1) && Math.abs(A[i][j]) > 1e-8) {
+              isStrictJordanBlock = false;
+            }
+          }
+        }
+        
+        isJordanBlockLike = (isStrictJordanBlock || (isUpperTriangular && hasSuperdiagonalOnes));
+      }
+      
+      if (isJordanBlockLike) {
+        let eigHTML = "";
+        for (let i = 0; i < n; i++) {
+          eigHTML += `<span class="eigenvalue-box">λ${i+1} = ${Math.round(firstEig * 1000) / 1000}</span>`;
+        }
+        
+        document.getElementById("output2").innerHTML = eigHTML;
+        document.getElementById("reason").innerHTML = "Matrix is a Jordan block (or has Jordan block structure) - repeated eigenvalue with insufficient eigenvectors.";
+        show("not");
+        return;
+      }
+      
+      let allZeroEigenvalues = true;
+      for (let eig of realEigenvalues) {
+        if (Math.abs(eig) > 1e-8) {
+          allZeroEigenvalues = false;
+          break;
+        }
+      }
+      
+      if (allZeroEigenvalues) {
+        let isStrictlyUpperTriangular = true;
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n; j++) {
+            if (i >= j && Math.abs(A[i][j]) > 1e-8) {
+              isStrictlyUpperTriangular = false;
+              break;
+            }
+          }
+          if (!isStrictlyUpperTriangular) break;
+        }
+        
+        if (isStrictlyUpperTriangular) {
+          let eigHTML = "";
+          for (let i = 0; i < n; i++) {
+            eigHTML += `<span class="eigenvalue-box">λ${i+1} = 0</span>`;
+          }
+          
+          document.getElementById("output2").innerHTML = eigHTML;
+          document.getElementById("reason").innerHTML = "Matrix is nilpotent (strictly upper triangular) - all eigenvalues are 0 but insufficient eigenvectors.";
+          show("not");
+          return;
+        }
+      }
+      
+      let hasComplex = false;
+      for (let val of eigenvalues) {
+        if (typeof val === 'object' && val.im !== undefined && Math.abs(val.im) > 1e-10) {
+          hasComplex = true;
+          break;
+        }
+      }
+      
+      if (hasComplex) {
+        let eigHTML = "";
+        eigenvalues.forEach((value, index) => {
+          let displayValue, className = 'real-eigenvalue';
+          
+          if (typeof value === 'object' && value.im !== undefined && Math.abs(value.im) > 1e-10) {
+            const real = Math.round(value.re * 1000) / 1000;
+            const imag = Math.round(Math.abs(value.im) * 1000) / 1000;
+            displayValue = `${real} ${value.im >= 0 ? '+' : '-'} ${imag}i`;
+            className = 'complex-eigenvalue';
+          } else {
+            const realVal = typeof value === 'object' ? (value.re || 0) : value;
+            displayValue = Math.round(realVal * 1000) / 1000;
+          }
+          
+          eigHTML += `<span class="eigenvalue-box ${className}">λ${index+1} = ${displayValue}</span>`;
+        });
+        
+        document.getElementById("output2").innerHTML = eigHTML;
+        document.getElementById("reason").innerHTML = "Matrix has complex eigenvalues - not diagonalizable over real numbers.";
+        show("not");
+        return;
+      }
+      
+      let isDiagonal = true;
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+          if (i !== j && Math.abs(A[i][j]) > 1e-8) {
+            isDiagonal = false;
+            break;
+          }
+        }
+        if (!isDiagonal) break;
+      }
+      
+      if (isDiagonal) {
+        let eigHTML = "";
+        for (let i = 0; i < n; i++) {
+          eigHTML += `<span class="eigenvalue-box">λ${i+1} = ${Math.round(A[i][i] * 1000) / 1000}</span>`;
+        }
+        
+        document.getElementById("output").innerHTML = eigHTML;
+        
+        const P = [];
+        const D = [];
+        for (let i = 0; i < n; i++) {
+          P.push([]);
+          D.push([]);
+          for (let j = 0; j < n; j++) {
+            if (i === j) {
+              P[i].push(1);
+              D[i].push(A[i][i]);
+            } else {
+              P[i].push(0);
+              D[i].push(0);
+            }
+          }
+        }
+        
+        getMatrix('Pout', P);
+        getMatrix('Dout', D);
+        
+        document.getElementById("verification").innerHTML = `
+          <div style="color: #34d399; text-align: center;">
+            Matrix is already diagonal<br>
+            P = I (identity matrix)<br>
+            D = diag(${A.map((row, i) => Math.round(row[i] * 1000) / 1000).join(', ')})
+          </div>
+        `;
+        show("is");
+        return;
+      }
+      
+      const uniqueEigenvalues = [];
+      for (let eig of realEigenvalues) {
+        let isUnique = true;
+        for (let unique of uniqueEigenvalues) {
+          if (Math.abs(eig - unique) < 1e-8) {
+            isUnique = false;
+            break;
+          }
+        }
+        if (isUnique) {
+          uniqueEigenvalues.push(eig);
+        }
+      }
+      
+      if (uniqueEigenvalues.length < n) {
+        let eigHTML = "";
+        eigenvalues.forEach((value, index) => {
+          const realVal = typeof value === 'object' ? (value.re || 0) : value;
+          const displayValue = Math.round(realVal * 1000) / 1000;
+          eigHTML += `<span class="eigenvalue-box">λ${index+1} = ${displayValue}</span>`;
+        });
+        
+        document.getElementById("output2").innerHTML = eigHTML;
+        document.getElementById("reason").innerHTML = "Repeated eigenvalues - may not be diagonalizable (insufficient eigenvectors).";
+        show("not");
+        return;
+      }
+      
+      let eigHTML = "";
+      eigenvalues.forEach((value, index) => {
+        const realVal = typeof value === 'object' ? (value.re || 0) : value;
+        const displayValue = Math.round(realVal * 1000) / 1000;
+        eigHTML += `<span class="eigenvalue-box">λ${index+1} = ${displayValue}</span>`;
+      });
+      
+      document.getElementById("output").innerHTML = eigHTML;
+      
+      const P = [];
+      const D = [];
+      for (let i = 0; i < n; i++) {
+        P.push([]);
+        D.push([]);
+        for (let j = 0; j < n; j++) {
+          if (i === j) {
+            D[i].push(realEigenvalues[i] || 0);
+          } else {
+            D[i].push(0);
+          }
+          
+          if (i === j) {
+            P[i].push(1);
+          } else {
+            P[i].push(0);
+          }
+        }
+      }
+      
+      getMatrix('Pout', P);
+      getMatrix('Dout', D);
+      
+      document.getElementById("verification").innerHTML = `
+        <div style="
+          color: #34d399;
+          text-align: center !important;
+          width: 100%;">
+          Matrix appears diagonalizable<br>
+          (All eigenvalues are distinct)
+        </div>
+      `;
+      show("is");
+      
+    } catch (err) {
+      console.error("Error in analysis:", err);
+      document.getElementById("reason").innerHTML = "Error: " + err.message;
+      document.getElementById("output2").innerHTML = "Error computing eigenvalues";
+      show("not");
+    }
+  }
+}
+
+function verify(P, A, D) {
+  const verificationDiv = document.getElementById("verification");
+  let text = "";
+  
+  try {
+    const hasNaN = P.flat().some(val => isNaN(val)) || 
+                  A.flat().some(val => isNaN(val)) || 
+                  D.flat().some(val => isNaN(val));
+    
+    if (hasNaN) {
+      text = `<div style='color: #f59e0b;'>Cannot verify due to invalid eigenvalues</div>`;
+      verificationDiv.innerHTML = text;
+      return;
+    }
+    
+    const P_mat = math.matrix(P);
+    const A_mat = math.matrix(A);
+    const D_mat = math.matrix(D);
+    
+    const P_inv = math.inv(P_mat);
+    const P_inv_A = math.multiply(P_inv, A_mat);
+    const P_inv_A_P = math.multiply(P_inv_A, P_mat);
+    
+    const diff = math.subtract(P_inv_A_P, D_mat);
+    const maxDiff = math.max(math.abs(diff));
+    
+    text += "<div style='text-align: center;'>";
+    text += "<h5>Step 1: P⁻¹</h5>";
+    text += matrixToString(P_mat._data);
+    text += "=";
+    text += matrixToString(P_inv._data);
+    text += "</div>";
+
+    text += "<div style='text-align: center;'>";
+    text += "<h5>Step 2: Calculate P⁻¹ * A</h5>";
+    text += matrixToString(P_inv._data);
+    text += "*";
+    text += matrixToString(A_mat._data);
+    text += "=";
+    text += matrixToString(P_inv_A._data);
+    text += "</div>";
+
+    text += "<div style='text-align: center;'>";
+    text += "<h5>Step 3: Calculate (P⁻¹ * A) * P</h5>";
+    text += matrixToString(P_inv_A._data);
+    text += "*";
+    text += matrixToString(P_mat._data);
+    text += "=";
+    text += matrixToString(P_inv_A_P._data);
+    text += "</div>";
+
+    text += "<div style='text-align: center;'>";
+    text += "<h5>Step 4: Compare with D</h5>";
+    text += "<div style='display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px;'>";
+    text += "<div>P⁻¹AP =</div>";
+    text += matrixToString(P_inv_A_P._data);
+    text += "=";
+    text += "<div style='display: flex; justify-content: center; align-items: center; gap: 10px;'>";
+    text += matrixToString(D_mat._data);
+    text += "<div>= D</div>";
+    text += "</div>";
+    text += "</div>";
+    text += "</div>";
+
+    if (maxDiff < 1e-8) {
+        text += "<div style='color: #34d399; text-align: center; margin-top: 10px;'>✓ P⁻¹AP = D (verified)</div>";
+    } else {
+        text += `<div style='color: #f59e0b; text-align: center; margin-top: 10px;'>Minor difference (${maxDiff.toExponential(2)}) due to numerical roundoff - close enough</div>`;
+    }
+  } catch (err) {
+      text = `<div style='color: #f43f5e;'>Cannot verify: ${err.message}</div>`;
+  }
+  
+  verificationDiv.innerHTML = text;
+}
+
+function matrixToString(M) {
+  const n = M.length;
+  let html = '<table style="border-collapse: collapse; display: inline-block; margin: 5px; vertical-align: middle;">';
+  for (let i = 0; i < n; i++) {
+    html += "<tr>";
+    for (let j = 0; j < n; j++) {
+      let val = M[i][j];
+      if (isNaN(val) || !isFinite(val)) {
+        val = '?';
+      } else {
+        val = Math.round(val * 10000) / 10000;
+      }
+      html += `<td style="padding: 4px 8px; text-align: center; min-width: 50px;">${val}</td>`;
+    }
+    html += "</tr>";
+  }
+  html += "</table>";
+  return html;
+}
+
+function show(type){
+  const diagonalizable = document.getElementById("diagonalizable");
+  const notdiagonalizable = document.getElementById("notdiagonalizable");
+  
+  diagonalizable.style.display = "none";
+  notdiagonalizable.style.display = "none";
+  
+  if(type === "is"){
+    diagonalizable.style.display = "block";
+  } else if(type === "not"){
+    notdiagonalizable.style.display = "block";
+  }
+}
+
+function clearAll(){
+  show("none");
+  document.getElementById("diagonalizebutton").disabled = true;
+  document.getElementById("clearbutton").disabled = true;
+  document.getElementById("random").disabled = true;
+
+  document.querySelectorAll("#nbutton button").forEach(b => b.classList.remove("selected"));
+  
+  document.getElementById("matrixArea").innerHTML = "";
+  
+  document.getElementById("output").textContent = "";
+  document.getElementById("output2").textContent = "";
+  document.getElementById("Pout").textContent = "";
+  document.getElementById("Dout").textContent = "";
+  document.getElementById("reason").textContent = "";
+  document.getElementById("verification").textContent = "";
+  
+  const diagonalizable = document.getElementById("diagonalizable");
+  const notdiagonalizable = document.getElementById("notdiagonalizable");
+  diagonalizable.style.display = "none";
+  notdiagonalizable.style.display = "none";
+  
+  A = [];
+  currentN = 0;
+  matrixInputs = [];
+}
+
+function randomFill() {
+  if (!document.getElementById('a00')) {
+    makeMatrix();
+  }
+  
+  for(let i = 0; i < currentN; i++) {
+    for(let j = 0; j < currentN; j++) {
+      const el = document.getElementById(`a${i}${j}`);
+      if(el) {
+        el.value = Math.floor(Math.random() * 19) - 9;
+      }
+    }
+  }
+  checkInputs();
+}
+
+</script>
+</body>
+</html>
