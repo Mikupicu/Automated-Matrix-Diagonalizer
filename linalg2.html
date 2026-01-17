@@ -179,7 +179,7 @@ function analyze(){
   out.textContent='Eigenvalues: '+eig.join(', ')+'\n';
 
   let unique = [...new Set(eig)];
-  let diagonalizable = (unique.length===n);
+  let diagonalizable = (unique.length===n); //We need to check for linearly independent eigenvector columns rather than unique eigenvalues
   if(!diagonalizable){
     document.getElementById('Pout').textContent='';
     document.getElementById('Dout').textContent='';
