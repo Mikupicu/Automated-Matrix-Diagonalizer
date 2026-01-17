@@ -113,7 +113,7 @@ function qrDecomp(A){
   return {Q,R};
 }
 
-function eigenvalues(A,it=60){
+function eigenvalues(A,it=1024){
   let M=clone(A);
   for(let k=0;k<it;k++){
     let {Q,R}=qrDecomp(M);
