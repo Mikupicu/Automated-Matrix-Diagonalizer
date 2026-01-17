@@ -1,4 +1,4 @@
 # Automated-Matrix-Diagonalizer
 A final project for our linear algebra subject.
-SUBMITTED BY:
+<br>SUBMITTED BY:
 BSCS 2-4
